@@ -7,11 +7,11 @@ import {
 
 const TopBar = () => {
     return (
-        <header className="w-full h-[72px] bg-white border-b border-[#ececf3] px-7 flex items-center justify-between">
+        <header className="h-[72px] bg-white border-b border-[#ececf3] px-7 flex items-center justify-between fixed left-64 right-0 top-0 z-50">
 
             {/* Workspace */}
             <div className="flex items-center gap-2">
-                <span className="text-[18px] font-bold text-[#1a1a2e]">
+                <span className="text-[18px] font-bold text-black">
                     Rashid Menswear
                 </span>
 
@@ -32,16 +32,16 @@ const TopBar = () => {
                     <Search
                         size={17}
                         strokeWidth={2}
-                        className="text-[#8a8ba3]"
+                        className="text-gray"
                     />
 
                     <input
                         type="text"
                         placeholder="Search..."
-                        className="flex-1 bg-transparent outline-none text-[13px] text-[#1a1a2e] placeholder:text-[#8a8ba3]"
+                        className="flex-1 bg-transparent outline-none text-[13px] text-black placeholder:text-[#8a8ba3]"
                     />
 
-                    <kbd className="text-[11px] text-[#8a8ba3] border border-[#dfdfe7] rounded-[5px] px-1.5 py-0.5">
+                    <kbd className="text-[11px] text-gray border border-[#dfdfe7] rounded-[5px] px-1.5 py-0.5">
                         ⌘K
                     </kbd>
 
@@ -69,7 +69,7 @@ const TopBar = () => {
                         A
                     </div>
 
-                    <span className="text-[14px] font-medium text-[#1a1a2e]">
+                    <span className="text-[14px] font-medium text-black">
                         Ahmed
                     </span>
 

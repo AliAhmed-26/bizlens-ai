@@ -18,7 +18,7 @@ const Sidebar = () => {
         label: string;
         icon: LucideIcon;
     }
-    
+
     const mainNavItems: NavItem[] = [
         {
             label: "Dashboard",
@@ -68,7 +68,7 @@ const Sidebar = () => {
     return (
 
 
-        <aside className='w-64 h-screen bg-white border-r border-[#ececf3] px-[14px] py-5'>
+        <aside className='w-64 h-screen bg-white border-r border-[#ececf3] px-[14px] py-5 fixed left-0 top-0 z-50'>
             {/* Brand */}
             <div className="flex items-center gap-2 px-2 mb-4 ">
                 <div className="w-8 h-8 rounded-[9px] bg-[#6d5ef8] flex items-center justify-center">
@@ -98,7 +98,7 @@ const Sidebar = () => {
                 {
                     mainNavItems.map(item => {
                         return (
-                            <button key={item.label} className='flex items-center gap-3 px-3 py-[9px] rounded-[9px] text-[#8a8ba3] text-[14px] font-medium'>
+                            <button key={item.label} className='flex items-center gap-3 px-3 py-[9px] rounded-[9px] text-[#8a8ba3] text-small font-medium'>
 
                                 <item.icon size={18} strokeWidth={2} />
                                 <span>{item.label}</span>
@@ -130,3 +130,11 @@ const Sidebar = () => {
 }
 
 export default Sidebar
+
+
+
+
+
+
+
+
