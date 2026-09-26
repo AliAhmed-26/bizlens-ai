@@ -1,5 +1,5 @@
 import express from "express"
-import { getBusinesses } from "../controllers/businessController.js"
+import getBusinesses from "../controllers/businessController.js"
 
 const router = express.Router()
 router.get("/", getBusinesses)

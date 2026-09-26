@@ -2,14 +2,20 @@ import express from "express";
 import pool from "./config/db.js";
 import businessRoutes from "./routes/businessRoutes.js"
 import productRoutes from "./routes/productRoutes.js"
+import dashboardRoutes from "./routes/dashboardRoutes.js"
+import cors from "cors"
+
+
 const app = express();
 
+app.use(cors())
 app.use(express.json())
 
 app.use("/api/businesses", businessRoutes)
 app.use("/api/products", productRoutes)
+app.use("/api/dashboard", dashboardRoutes)
 
-app.get("/", (_req, res) => {
+app.get("/", (req, res) => {
   res.json({
     message: "BizLens API is running",
   });

@@ -1,7 +1,7 @@
 import pool from "../config/db.js";
 import { Response, Request } from "express";
 
-export const getProducts = async (req: Request, res: Response) => {
+const getProducts = async (req: Request, res: Response) => {
     try {
         const result = await pool.query("SELECT * FROM products")
         res.status(200).json(result.rows)
@@ -14,4 +14,5 @@ export const getProducts = async (req: Request, res: Response) => {
             message: "Failed to fetch products",
         })
     }
-} 
+}
+export default getProducts

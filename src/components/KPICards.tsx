@@ -1,45 +1,69 @@
+"use client"
 import React from 'react'
-
+import { useState, useEffect } from 'react'
 const KPICards = () => {
+
+
+    const [dashboardStats, setDashboardStats] = useState({
+        total_revenue: 0,
+        total_orders: 0,
+        average_order_value: 0,
+    })
+
+    const fetchDashboardStat = async () => {
+        const request = await fetch("http://localhost:5000/api/dashboard/stats")
+        const response = await request.json()
+
+        setDashboardStats(response)
+        console.log(response)
+    }
+    useEffect(() => {
+        fetchDashboardStat()
+    }, [])
+
+
+
     const kpis = [
         {
             title: "Total Revenue",
-            value: "$187,420",
+            value: `$${Number(dashboardStats.total_revenue).toLocaleString()}`,
             change: "+14.2%",
         },
         {
             title: "Total Orders",
-            value: "1,432",
+            value: Number(dashboardStats.total_orders).toLocaleString(),
             change: "+9.8%",
         },
         {
             title: "Avg. Order Value",
-            value: "$130.90",
+            value: `$${Number(dashboardStats.average_order_value).toLocaleString()}`,
             change: "+3.9%",
         },
         {
+
             title: "Sales Growth",
-            value: "+18.3%",
-            change: "+4.1pp",
+            value: "NaN",
+            change: "No previous period",
         },
     ]
+
     return (
         <section className="grid grid-cols-4 gap-4">
-            {kpis.map((kpi) => (
+            {kpis.map((stat) => (
                 <div
-                    key={kpi.title}
+                    key={stat.title}
                     className="rounded-xl border border-border bg-white p-4"
                 >
                     <p className="text-sm text-gray">
-                        {kpi.title}
+                        {stat.title}
                     </p>
 
                     <h2 className="mt-2 text-2xl font-semibold text-black">
-                        {kpi.value}
+                        {stat.value}
                     </h2>
 
                     <p className="mt-1 text-xs text-green">
-                        ↑ {kpi.change}
+                        ↑ {stat.change}
                     </p>
                 </div>
             ))}
