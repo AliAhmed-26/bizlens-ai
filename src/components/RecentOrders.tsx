@@ -74,7 +74,7 @@ const RecentOrders = () => {
                             arr.map(item => {
                                 return (
 
-                                    <th className="pb-2 text-left text-[12px] uppercase text-gray">
+                                    <th key={item} className="pb-2 text-left text-[12px] uppercase text-gray">
                                         {item}
                                     </th>
                                 )

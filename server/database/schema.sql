@@ -1,0 +1,40 @@
+DROP TABLE IF EXISTS customers;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS businesses;
+
+
+CREATE TABLE businesses (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE categories (
+	id SERIAL PRIMARY KEY,
+	business_id INTEGER NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	FOREIGN KEY(business_id) REFERENCES businesses(id)
+);
+
+CREATE TABLE products (
+	id SERIAL PRIMARY KEY,
+	business_id INTEGER NOT NULL,
+	category_id INTEGER NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	price FLOAT NOT NULL,
+	stock INTEGER NOT NULL,
+	FOREIGN KEY(business_id) REFERENCES businesses(id),
+	FOREIGN KEY(category_id) REFERENCES categories(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE customers (
+	id SERIAL PRIMARY KEY,
+	business_id INTEGER NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	email VARCHAR(100) UNIQUE NOT NULL,
+	FOREIGN KEY(business_id) REFERENCES businesses(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
