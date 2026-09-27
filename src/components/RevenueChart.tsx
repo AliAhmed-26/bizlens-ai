@@ -1,4 +1,6 @@
 "use client"
+import { fetchDashboardChartRevenue } from "@/services/dashboardService"
+import { useEffect, useState } from "react"
 import {
     AreaChart,
     Area,
@@ -9,20 +11,41 @@ import {
     ResponsiveContainer,
 } from "recharts"
 
+
+type chartRevenueType = {
+    date: string,
+    revenue_per_day: number
+}
+
+
 const RevenueChart = () => {
-    const revenueData = [
-        { date: "Sep 1", revenue: 4200 },
-        { date: "Sep 5", revenue: 6100 },
-        { date: "Sep 10", revenue: 5200 },
-        { date: "Sep 15", revenue: 7800 },
-        { date: "Sep 20", revenue: 6900 },
-        { date: "Sep 25", revenue: 9200 },
-        { date: "Sep 30", revenue: 10800 },
-    ]
+    const [dashboardChartRevenue, setDashboardChartRevenue] = useState<chartRevenueType[]>([])
+
+
+    useEffect(() => {
+        const showChartRevenue = async () => {
+            const response = await fetchDashboardChartRevenue()
+            setDashboardChartRevenue(response)
+            console.log("Response: ", response)
+
+        }
+        showChartRevenue()
+    }, [])
+
+
+    const chartRevenueData = Array.isArray(dashboardChartRevenue) ? dashboardChartRevenue.map((item) => ({
+
+        date: new Date(item.date).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric"
+        }),
+        revenue: Number(item.revenue_per_day)
+    })) : []
+
     return (
         <ResponsiveContainer width="100%" height="100%">
 
-            <AreaChart width={700} height={250} data={revenueData}>
+            <AreaChart width={700} height={250} data={chartRevenueData}>
                 <CartesianGrid vertical={false} stroke="#e5e7eb" />
                 <XAxis
                     dataKey="date"

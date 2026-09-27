@@ -1,4 +1,5 @@
 "use client"
+import { fetchDashboardStat } from '@/services/dashboardService'
 import React from 'react'
 import { useState, useEffect } from 'react'
 const KPICards = () => {
@@ -10,15 +11,13 @@ const KPICards = () => {
         average_order_value: 0,
     })
 
-    const fetchDashboardStat = async () => {
-        const request = await fetch("http://localhost:5000/api/dashboard/stats")
-        const response = await request.json()
-
-        setDashboardStats(response)
-        console.log(response)
-    }
     useEffect(() => {
-        fetchDashboardStat()
+        const showDashboardStat = async () => {
+            const response = await fetchDashboardStat()
+            setDashboardStats(response)
+            
+        }
+        showDashboardStat()
     }, [])
 
 
