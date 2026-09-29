@@ -19,12 +19,12 @@ VALUES
 (1, 'Ahmed Raza', 'ahmed@example.com'),
 (1, 'Usman Malik', 'usman@example.com');
 
-INSERT INTO orders (business_id, customer_id, total_amount, order_date)
+INSERT INTO orders (business_id, customer_id, total_amount,status, order_date)
 VALUES
-(1, 1, 6800, '2026-09-20'),
-(1, 2, 4000, '2026-09-22'),
-(1, 3, 3700, '2026-09-24'),
-(1, 1, 5200, '2026-09-25');
+(1, 1, 6800, 'Delivered', '2026-09-20'),
+(1, 2, 4000,'Processing', '2026-09-22'),
+(1, 3, 3700,'Shipped', '2026-09-24'),
+(1, 1, 5200,'Cancelled', '2026-09-25');
 
 INSERT INTO order_items (order_id, product_id, unit_price, quantity)
 VALUES

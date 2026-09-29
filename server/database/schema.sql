@@ -46,6 +46,7 @@ CREATE TABLE orders (
 	business_id INTEGER NOT NULL,
 	customer_id INTEGER NOT NULL,
 	total_amount FLOAT NOT NULL,
+	status VARCHAR(20) NOT NULL,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY(business_id) REFERENCES businesses(id),

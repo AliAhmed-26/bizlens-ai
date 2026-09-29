@@ -1,5 +1,7 @@
 "use client"
 
+import { fetchTopProducts } from "@/services/dashboardService"
+import { useEffect, useState } from "react"
 import { AreaChart, Area, ResponsiveContainer } from "recharts"
 
 const products = [
@@ -29,7 +31,25 @@ const products = [
     },
 ]
 
+type topProductType = {
+    product_name: string,
+    total_quantity: number,
+    total_revenue: number
+}
+
 const TopProducts = () => {
+
+    const [dashboardTopProducts, setDashboardTopProducts] = useState<topProductType[]>([])
+
+    useEffect(() => {
+      const showTopProducts = async()=>{
+        const response = await fetchTopProducts()
+        console.log(response)
+        setDashboardTopProducts(response)
+      }
+      showTopProducts()
+    }, [])
+    
     return (
         <section className="rounded-xl border border-border bg-white p-5">
 
@@ -46,9 +66,9 @@ const TopProducts = () => {
 
             {/* Products */}
             <div>
-                {products.map((product, index) => (
+                {dashboardTopProducts.map((product, index) => (
                     <div
-                        key={product.name}
+                        key={product.product_name}
                         className="flex items-center gap-3 border-t border-border py-3 first:border-t-0"
                     >
                         {/* Rank */}
@@ -59,16 +79,16 @@ const TopProducts = () => {
                         {/* Product info */}
                         <div className="min-w-0 flex-1">
                             <p className="truncate text-[14px] font-bold ">
-                                {product.name}
+                                {product.product_name}
                             </p>
 
                             <p className="font-mono text-small text-gray">
-                                {product.units} units
+                                {product.total_quantity} units
                             </p>
                         </div>
 
                         {/* Sparkline */}
-                        <div className="h-8 w-16 shrink-0">
+                        {/* <div className="h-8 w-16 shrink-0">
                             <ResponsiveContainer width="100%" height="100%">
                                 <AreaChart
                                     data={product.trend.map((value) => ({ value }))}
@@ -83,12 +103,15 @@ const TopProducts = () => {
                                     />
                                 </AreaChart>
                             </ResponsiveContainer>
-                        </div>
+                        </div> */}
 
                         {/* Revenue */}
                         <div className="w-20 shrink-0 text-right">
                             <p className="text-body font-bold">
-                                {product.revenue}
+                                {`$${product.total_revenue.toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                })}`}
                             </p>
                         </div>
                     </div>

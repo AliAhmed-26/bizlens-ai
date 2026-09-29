@@ -1,38 +1,42 @@
+"use client"
+import { fetchRecentOrders } from "@/services/dashboardService"
+import { useEffect, useState } from "react"
+
 const recentOrders = [
     {
         id: "#ORD-9812",
-        customer: "Sarah Mitchell",
-        amount: "$248.00",
+        name: "Sarah Mitchell",
+        total_amount: "$248.00",
         status: "Delivered",
-        date: "Sep 19",
+        order_date: "Sep 19",
     },
     {
         id: "#ORD-9811",
-        customer: "James Okafor",
-        amount: "$89.90",
+        name: "James Okafor",
+        total_amount: "$89.90",
         status: "Processing",
-        date: "Sep 19",
+        order_date: "Sep 19",
     },
     {
         id: "#ORD-9810",
-        customer: "Lena Müller",
-        amount: "$412.50",
+        name: "Lena Müller",
+        total_amount: "$412.50",
         status: "Shipped",
-        date: "Sep 18",
+        order_date: "Sep 18",
     },
     {
         id: "#ORD-9809",
-        customer: "David Park",
-        amount: "$67.00",
+        name: "David Park",
+        total_amount: "$67.00",
         status: "Delivered",
-        date: "Sep 18",
+        order_date: "Sep 18",
     },
     {
         id: "#ORD-9808",
-        customer: "Amara Singh",
-        amount: "$195.00",
+        name: "Amara Singh",
+        total_amount: "$195.00",
         status: "Cancelled",
-        date: "Sep 17",
+        order_date: "Sep 17",
     },
 ]
 
@@ -51,7 +55,27 @@ const arr = [
     "Status",
     "Date"
 ]
+type recentOrdersType = {
+    id : number,
+    name : string,
+    total_amount : number,
+    status: string,
+    order_date: Date
+}
+
 const RecentOrders = () => {
+    const [dashboardRecentOrders, setDashboardRecentOrders] = useState<recentOrdersType[]>([])
+
+    useEffect(() => {
+      const showRecentOrders = async()=>{
+        const response = await fetchRecentOrders()
+        console.log(response)
+        setDashboardRecentOrders(response)
+      }
+
+      showRecentOrders()
+    }, [])
+    
     return (
         <section className="rounded-xl border border-border bg-white p-5">
 
@@ -84,33 +108,39 @@ const RecentOrders = () => {
                 </thead>
 
                 <tbody>
-                    {recentOrders.map((order) => (
+                    {dashboardRecentOrders.map((order) => (
                         <tr
                             key={order.id}
                             className="border-b border-border last:border-0"
                         >
-                            <td className="py-3 text-small text-purple font-bold">
-                                {order.id}
+                            <td className="py-3 text-small text-purple font-bold ">
+                                {`#ORD-${order.id.toString().padStart(4, "0")}`}
                             </td>
 
                             <td className="py-3 text-small ">
-                                {order.customer}
+                                {order.name}
                             </td>
 
                             <td className="py-3 font-mono text-small font-semibold ">
-                                {order.amount}
+                                {`$${order.total_amount.toLocaleString("en-US", {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                })}`}
                             </td>
 
-                            <td className="py-3">
+                            <td className="py-3 ">
                                 <span
-                                    className={`rounded px-2 py-1 text-xs font-semibold ${statusStyles[order.status as keyof typeof statusStyles]}`}
+                                    className={`rounded px-1 py-1 text-xs font-semibold ${statusStyles[order.status as keyof typeof statusStyles]}`}
                                 >
                                     {order.status}
                                 </span>
                             </td>
 
-                            <td className="py-3 text-right text-small text-gray">
-                                {order.date}
+                            <td className="py-3 text-small text-gray">
+                                {new Date(order.order_date).toLocaleDateString("en-US",{
+                                    month: "short",
+                                    day: "numeric"
+                                })}
                             </td>
                         </tr>
                     ))}

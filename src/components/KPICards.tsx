@@ -14,6 +14,7 @@ const KPICards = () => {
     useEffect(() => {
         const showDashboardStat = async () => {
             const response = await fetchDashboardStat()
+            console.log(response)
             setDashboardStats(response)
             
         }

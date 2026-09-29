@@ -18,3 +18,17 @@ export const fetchSalesByCategory = async () => {
     const response_sales_by_category = await request_sales_by_category.json()
     return response_sales_by_category
 }
+
+export const fetchTopProducts = async () => {
+    
+    const request_top_products = await fetch("http://localhost:5000/api/dashboard/top_products")
+    const response_top_products = await request_top_products.json()
+    return response_top_products
+}
+
+export const fetchRecentOrders = async () => {
+    
+    const request_recent_orders = await fetch("http://localhost:5000/api/dashboard/recent_orders")
+    const response_recent_orders = await request_recent_orders.json()
+    return response_recent_orders
+}

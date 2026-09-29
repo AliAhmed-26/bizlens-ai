@@ -35,12 +35,12 @@ const SalesByCategory = () => {
     showSalesByCategory()
   }, [])
 
-  const categoryData = [
-    { name: "Footwear", value: 38 },
-    { name: "Apparel", value: 29 },
-    { name: "Accessories", value: 21 },
-    { name: "Outerwear", value: 12 },
-  ]
+  // const categoryData = [
+  //   { name: "Footwear", value: 38 },
+  //   { name: "Apparel", value: 29 },
+  //   { name: "Accessories", value: 21 },
+  //   { name: "Outerwear", value: 12 },
+  // ]
 
   const colors = [
     "#4f46e5",
