@@ -41,3 +41,72 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     </html>
   );
 }
+
+
+
+
+
+// bizlens-ai/
+// │
+// ├── src/
+// │   └── app/
+// │       ├── analytics/
+// │       │   └── page.tsx
+// │       ├── ask/
+// │       │   └── page.tsx
+// │       ├── billing/
+// │       │   └── page.tsx
+// │       ├── dashboard/
+// │       │   └── page.tsx
+// │       ├── documents/
+// │       │   └── page.tsx
+// │       ├── insights/
+// │       │   └── page.tsx
+// │       ├── reports/
+// │       │   └── page.tsx
+// │       ├── settings/
+// │       │   └── page.tsx
+// │       │
+// │       ├── components/
+// │       │   ├── Sidebar.tsx
+// │       │   ├── TopBar.tsx
+// │       │   │
+// │       │   └── dashboard/
+// │       │       ├── DashboardHeader.tsx
+// │       │       ├── KPICards.tsx
+// │       │       ├── RevenueSection.tsx
+// │       │       ├── RevenueChart.tsx
+// │       │       ├── SalesByCategory.tsx
+// │       │       ├── TopProducts.tsx
+// │       │       └── RecentOrders.tsx
+// │       │
+// │       ├── layout.tsx
+// │       └── page.tsx
+// │
+// ├── server/
+// │   ├── config/
+// │   │   └── db.ts
+// │   │
+// │   ├── controllers/
+// │   │   └── dashboardController.ts
+// │   │
+// │   ├── routes/
+// │   │   └── dashboardRoutes.ts
+// │   │
+// │   ├── models/
+// │   │
+// │   ├── services/
+// │   │
+// │   ├── database/
+// │   │   ├── schema.sql
+// │   │   └── seed.sql
+// │   │
+// │   ├── .env
+// │   ├── server.ts
+// │   ├── package.json
+// │   └── tsconfig.json
+// │
+// ├── public/
+// ├── package.json
+// ├── tsconfig.json
+// └── ...

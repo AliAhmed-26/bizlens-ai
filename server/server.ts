@@ -3,6 +3,7 @@ import pool from "./config/db.js";
 import businessRoutes from "./routes/businessRoutes.js"
 import productRoutes from "./routes/productRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js"
+import analyticsRoutes from "./routes/analyticsRoutes.js"
 import cors from "cors"
 
 
@@ -14,6 +15,7 @@ app.use(express.json())
 app.use("/api/businesses", businessRoutes)
 app.use("/api/products", productRoutes)
 app.use("/api/dashboard", dashboardRoutes)
+app.use("/api/analytics", analyticsRoutes)
 
 app.get("/", (req, res) => {
   res.json({
