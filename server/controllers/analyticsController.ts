@@ -44,3 +44,71 @@ export const getAnalyticsOrdersGraph = async (req: Request, res: Response) => {
         })
     }
 }
+
+export const getAnalyticsRevenueByCategory = async (req: Request, res: Response) => {
+
+    try {
+        const result = await pool.query(`
+            SELECT
+                cat.id,
+                cat.name,
+                SUM((oi.unit_price)*(oi.quantity)) AS revenue_by_category
+            FROM categories cat
+            JOIN products pro ON pro.category_id = cat.id
+            JOIN order_items oi ON oi.product_id = pro.id
+            JOIN orders ON oi.order_id = orders.id
+            WHERE orders.status != 'Cancelled'
+            GROUP BY cat.id, cat.name
+            ORDER BY SUM((oi.unit_price)*(oi.quantity)) DESC
+            LIMIT 4;
+        `)
+        console.log(result)
+        res.status(200).json(result.rows)
+
+    } catch (error) {
+
+        console.log(error)
+
+        res.status(500).json({
+            message: "Failed to fetch analytics revenue by category, aov",
+        })
+    }
+}
+
+
+
+export const getAnalyticsTopMarketsRevenue = async (req: Request, res: Response) => {
+
+    try {
+        const result = await pool.query(`
+            SELECT
+                cus.country AS country_name,
+                -- SUM(orders.total_amount) AS country_revenue,
+                -- SUM(SUM(orders.total_amount)) OVER() AS total_revenue,
+                ROUND(
+                    SUM(orders.total_amount)* 100.0 /
+                    SUM(SUM(orders.total_amount)) OVER()
+                    ) AS revenue_percentage 
+            FROM customers cus
+            JOIN orders ON orders.customer_id = cus.id
+            WHERE status != 'Cancelled'
+            GROUP BY cus.country
+            ORDER BY ROUND(
+                        SUM(orders.total_amount)* 100 /
+                        SUM(SUM(orders.total_amount)) OVER()
+                        ) DESC,
+                        SUM(orders.total_amount) DESC
+            LIMIT 5;
+        `)
+        console.log(result)
+        res.status(200).json(result.rows)
+
+    } catch (error) {
+
+        console.log(error)
+
+        res.status(500).json({
+            message: "Failed to fetch analytics top markets, aov",
+        })
+    }
+}

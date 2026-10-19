@@ -12,40 +12,49 @@ import {
     Clock3,
     type LucideIcon
 } from "lucide-react";
+import Link from 'next/link';
 const Sidebar = () => {
 
     type NavItem = {
         label: string;
+        href: string
         icon: LucideIcon;
     }
 
     const mainNavItems: NavItem[] = [
         {
             label: "Dashboard",
+            href: "/dashboard",
             icon: LayoutDashboard,
         },
         {
             label: "Analytics",
+            href: "/analytics",
             icon: TrendingUp,
         },
         {
             label: "Ask BizLens",
+            href: "/",
             icon: CircleAlert,
         },
         {
             label: "Documents",
+            href: "/",
             icon: FileText,
         },
         {
             label: "Doc Q&A",
+            href: "/",
             icon: MessageSquare,
         },
         {
             label: "Insights",
+            href: "/",
             icon: Lightbulb,
         },
         {
             label: "Reports",
+            href: "/",
             icon: ChartNoAxesColumn,
         },
     ];
@@ -53,14 +62,17 @@ const Sidebar = () => {
     const mainFooterItems: NavItem[] = [
         {
             label: "Billing",
+            href: "/",
             icon: CreditCard,
         },
         {
             label: "Settings",
+            href: "/",
             icon: Settings,
         },
         {
             label: "Admin Panel",
+            href: "/",
             icon: Clock3,
         },
 
@@ -98,12 +110,13 @@ const Sidebar = () => {
                 {
                     mainNavItems.map(item => {
                         return (
-                            <button key={item.label} className='flex items-center gap-3 px-3 py-[9px] rounded-[9px] text-[#8a8ba3] text-small font-medium'>
+                            <Link href={item.href} key={item.label} className='flex items-center 
+                            gap-3 px-3 py-[9px] rounded-[9px] text-[#8a8ba3] text-small font-medium'>
 
                                 <item.icon size={18} strokeWidth={2} />
                                 <span>{item.label}</span>
 
-                            </button>
+                            </Link>
                         )
                     })
                 }
@@ -114,12 +127,12 @@ const Sidebar = () => {
             {
                 mainFooterItems.map(item => {
                     return (
-                        <button key={item.label} className='flex items-center gap-3 px-3 py-[9px] rounded-[9px] text-[#8a8ba3] text-[14px] font-medium'>
+                        <Link href={item.href} key={item.label} className='flex items-center gap-3 px-3 py-[9px] rounded-[9px] text-[#8a8ba3] text-[14px] font-medium'>
 
                             <item.icon size={18} strokeWidth={2} />
                             <span>{item.label}</span>
 
-                        </button>
+                        </Link>
                     )
                 })
             }

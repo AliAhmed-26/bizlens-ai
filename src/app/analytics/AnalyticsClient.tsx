@@ -1,5 +1,7 @@
 "use client"
 import AnalyticsHeader from '@/components/analytics/AnalyticsHeader'
+import AnalyticsRevenueByCategory from '@/components/analytics/AnalyticsRevenueByCategory'
+import AnalyticsTopMarkets from '@/components/analytics/AnalyticsTopMarkets'
 import KPICardsAnalytics from '@/components/analytics/KPICardsAnalytics'
 import PerformanceTrend from '@/components/analytics/PerformanceTrend'
 import React from 'react'
@@ -18,7 +20,11 @@ const AnalyticsClient = () => {
                 onMetricChange={setActiveTimeLine}
             />
             <KPICardsAnalytics />
-            <PerformanceTrend  activeTimeLine={activeTimeLine}/>
+            <PerformanceTrend activeTimeLine={activeTimeLine} />
+            <div className='grid grid-cols-2 gap-4'>
+                <AnalyticsRevenueByCategory />
+                <AnalyticsTopMarkets />
+            </div>
         </main>
     )
 }

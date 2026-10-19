@@ -33,11 +33,12 @@ CREATE TABLE products (
 );
 
 CREATE TABLE customers (
-	id SERIAL PRIMARY KEY,
-	business_id INTEGER NOT NULL,
-	name VARCHAR(100) NOT NULL,
-	email VARCHAR(100) UNIQUE NOT NULL,
-	FOREIGN KEY(business_id) REFERENCES businesses(id),
+    id SERIAL PRIMARY KEY,
+    business_id INTEGER NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    country VARCHAR(100),
+    FOREIGN KEY(business_id) REFERENCES businesses(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
