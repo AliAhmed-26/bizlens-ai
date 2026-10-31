@@ -34,7 +34,7 @@ const Sidebar = () => {
         },
         {
             label: "Ask BizLens",
-            href: "/",
+            href: "/ask-bizlens",
             icon: CircleAlert,
         },
         {

@@ -32,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <div className="flex-1">
             <TopBar />
 
-            <main className="min-h-screen bg-gray-50 px-6 py-5 ml-64 pt-22">
+            <main className=" bg-gray-50 px-6 py-5 ml-64 pt-22">
               {children}
             </main>
           </div>
