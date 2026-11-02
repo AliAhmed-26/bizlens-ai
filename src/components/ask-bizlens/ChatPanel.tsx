@@ -1,7 +1,8 @@
 "use client"
 import { fetchchatWithAi } from "@/services/askBizlensService";
-import { ArrowUp, ArrowUpRight, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowUp, ArrowUpRight, LoaderCircle, Sparkles } from "lucide-react";
+import { useState } from "react";
+import ReactMarkdown from "react-markdown"
 
 const suggestedQuestions = [
     "Why did my revenue decrease last month?",
@@ -17,36 +18,48 @@ type messagesType = {
 
 export default function ChatPanel() {
     const [messages, setMessages] = useState<messagesType[]>([])
-
+    const [isLoading, setIsLoading] = useState(false)
     const [inputMessage, setInputMessage] = useState<string>("")
 
 
-    const showChatWithAi = async (message:string) => {
-        setInputMessage("")
-        const response = await fetchchatWithAi(message)
-        const aiMessage: messagesType = {
-            role: "assistant",
-            message: response.message
+    const showChatWithAi = async (message: string) => {
+
+        try {
+            setInputMessage("")
+            const response = await fetchchatWithAi(message)
+            const aiMessage: messagesType = {
+                role: "assistant",
+                message: response.message
+            }
+            setMessages((prev) => [...prev, aiMessage])
+
+        } catch (error) {
+            console.error("Chat API error:", error);
+        } finally {
+
+            setIsLoading(false)
         }
-        console.log("ai response " + response)
-        setMessages((prev) => [...prev, aiMessage])
     }
 
 
-    const handleSubmit = async() => {
+    const handleSubmit = async (question: string) => {
 
-        if (!inputMessage.trim()) {
+
+        if (!question.trim() || isLoading) {
+            console.log("trim error")
             return
         }
+        setIsLoading(true)
 
         const userMessages: messagesType = {
             role: "user",
-            message: inputMessage
+            message: question
         }
 
         setMessages((prev) => [...prev, userMessages])
-        await showChatWithAi(inputMessage)
+        await showChatWithAi(question)
     }
+
 
 
 
@@ -99,6 +112,11 @@ export default function ChatPanel() {
                                         key={index}
                                         type="button"
                                         className="group flex min-h-20 items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white p-4 text-left "
+                                        onClick={() => {
+
+                                            handleSubmit(question)
+                                        }}
+                                        disabled={isLoading}
                                     >
                                         <span className="text-sm font-medium leading-6 text-slate-700">
                                             {question}
@@ -141,7 +159,9 @@ export default function ChatPanel() {
                                             </div>
 
                                             <div className="text-sm leading-7 text-slate-700">
-                                                {message.message}
+                                                <ReactMarkdown>
+                                                    {message.message}
+                                                </ReactMarkdown>
                                             </div>
 
                                         </div>
@@ -151,6 +171,15 @@ export default function ChatPanel() {
                                     // {/* </div> */}
                                 )
                         ))}
+
+                        {isLoading && (
+                            <div className="flex items-center gap-3">
+                                <Sparkles size={17} className="text-indigo-600" />
+                                <p className="text-sm text-slate-500">
+                                    BizLens AI is thinking...
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                 )
@@ -167,15 +196,27 @@ export default function ChatPanel() {
                             className="min-w-0 flex-1 bg-transparent py-1 text-sm text-slate-800 outline-none placeholder:text-slate-400"
                             value={inputMessage}
                             onChange={e => { setInputMessage(e.target.value) }}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                    e.preventDefault()
+                                    handleSubmit(inputMessage)
+                                }
+                            }}
                         />
 
                         <button
                             type="button"
                             aria-label="Send message"
-                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white transition hover:bg-indigo-700"
-                            onClick={handleSubmit}
+                            // className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white transition hover:bg-indigo-700"
+                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+                            onClick={() => { handleSubmit(inputMessage) }}
+                            disabled={!inputMessage.trim() || isLoading}
                         >
-                            <ArrowUp size={19} />
+                            {isLoading ? (
+                                <LoaderCircle size={19} className="animate-spin" />
+                            ) :
+                                <ArrowUp size={19} />
+                            }
                         </button>
                     </div>
 
