@@ -1,6 +1,4 @@
 import { Response, Request } from "express";
-import ai from "../config/gemini.js";
-
 export const getChatWithAi = async (req: Request, res: Response) => {
     const { message } = req.body
 
@@ -10,16 +8,30 @@ export const getChatWithAi = async (req: Request, res: Response) => {
         })
     }
     try {
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: message,
-        });
+        // const response = await ai.models.generateContent({
+        //     model: "gemini-2.5-flash",
+        //     contents: message,
+        // });
 
+        const request = await fetch("http://127.0.0.1:8000/chat", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({
+                message: message
+            })
+        })
 
-        console.log(response.text)
+        if (!request.ok) {
+            throw new Error("AI service request failed");
+        }
+
+        const response = await request.json()
+
 
         return res.status(200).json({
-            message: response.text
+            message: response.message
         })
 
     } catch (error) {
