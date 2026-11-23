@@ -39,7 +39,7 @@ const Sidebar = () => {
         },
         {
             label: "Documents",
-            href: "/",
+            href: "/documents",
             icon: FileText,
         },
         {

@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS customers;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS businesses;
+DROP TABLE IF EXISTS uploaded_files;
+DROP TABLE IF EXISTS uploaded_file_rows;
 
 
 CREATE TABLE businesses (
@@ -63,4 +65,52 @@ CREATE TABLE order_items (
     quantity INTEGER NOT NULL,
 	FOREIGN KEY(order_id) REFERENCES orders(id),
 	FOREIGN KEY(product_id) REFERENCES products(id)
+);
+
+CREATE TABLE uploaded_files(
+	file_id SERIAL PRIMARY KEY,
+	business_id INTEGER NOT NULL,
+	file_name VARCHAR(100) NOT NULL,
+
+	stored_name VARCHAR(255) NOT NULL,
+	file_path TEXT NOT NULL,
+	file_type VARCHAR(10) NOT NULL,
+
+	file_size BIGINT NOT NULL,
+	processing_status VARCHAR(20) DEFAULT 'Uploaded',
+	row_count INTEGER DEFAULT 0,
+
+	uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+	FOREIGN KEY(business_id) REFERENCES businesses(id) ON DELETE CASCADE,
+
+	CONSTRAINT valid_file_type 
+		CHECK(
+			file_type IN ('CSV', 'XLS', 'XLSX')
+		),
+
+	CONSTRAINT valid_processing_status
+        CHECK (
+            processing_status IN (
+                'uploaded',
+                'processing',
+                'processed',
+                'failed'
+            )
+        )
+);
+
+
+CREATE TABLE uploaded_file_rows (
+	id SERIAL PRIMARY KEY,
+    file_id INTEGER NOT NULL,
+    row_number INTEGER NOT NULL,
+
+	row_data JSONB NOT NULL,
+
+    FOREIGN KEY (file_id)
+        REFERENCES uploaded_files(file_id)
+        ON DELETE CASCADE,
+
+    UNIQUE (file_id, row_number)
 );
