@@ -5,6 +5,7 @@ import productRoutes from "./routes/productRoutes.js"
 import dashboardRoutes from "./routes/dashboardRoutes.js"
 import analyticsRoutes from "./routes/analyticsRoutes.js"
 import askBizlensRoutes from "./routes/askBizlensRoutes.js"
+import documentRoutes from "./routes/documentRoutes.js"
 import cors from "cors"
 
 
@@ -18,6 +19,7 @@ app.use("/api/products", productRoutes)
 app.use("/api/dashboard", dashboardRoutes)
 app.use("/api/analytics", analyticsRoutes)
 app.use("/api/ask_bizlens",askBizlensRoutes)
+app.use("/api/document",documentRoutes)
 
 app.get("/", (req, res) => {
   res.json({
