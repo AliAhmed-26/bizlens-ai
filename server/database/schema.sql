@@ -70,7 +70,7 @@ CREATE TABLE order_items (
 CREATE TABLE uploaded_files(
 	file_id SERIAL PRIMARY KEY,
 	business_id INTEGER NOT NULL,
-	file_name VARCHAR(100) NOT NULL,
+	file_name VARCHAR(255) NOT NULL,
 
 	stored_name VARCHAR(255) NOT NULL,
 	file_path TEXT NOT NULL,
@@ -86,16 +86,16 @@ CREATE TABLE uploaded_files(
 
 	CONSTRAINT valid_file_type 
 		CHECK(
-			file_type IN ('CSV', 'XLS', 'XLSX')
+			file_type IN ('csv', 'xls', 'xlsx')
 		),
 
 	CONSTRAINT valid_processing_status
         CHECK (
             processing_status IN (
-                'uploaded',
-                'processing',
-                'processed',
-                'failed'
+                'Uploaded',
+                'Processing',
+                'Processed',
+                'Failed'
             )
         )
 );
