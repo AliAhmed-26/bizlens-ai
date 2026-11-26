@@ -6,3 +6,4 @@ export type documentMetaDataType = {
     processing_status: string,
     uploaded_at: string
 }
+

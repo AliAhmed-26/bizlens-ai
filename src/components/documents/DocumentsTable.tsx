@@ -1,5 +1,5 @@
 "use client"
-import { fetchMetaData } from "@/services/documentService";
+import { fetchDeleteData, fetchMetaData } from "@/services/documentService";
 import { documentMetaDataType } from "@/types/documentMetaDataType";
 import {
     FileSpreadsheet,
@@ -9,17 +9,31 @@ import {
     Trash2,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-
+import DocumentActualDataView from "./DocumentActualDataView";
 
 type documentsTableProps = {
-    documentMetaData: documentMetaDataType[]
+    documentMetaData: documentMetaDataType[];
+    onDeleteSuccess: () => void
 }
 
-const DocumentsTable = ({ documentMetaData }: documentsTableProps) => {
+
+const DocumentsTable = ({ documentMetaData, onDeleteSuccess }: documentsTableProps) => {
+
+
+    const [isViewOpen, setIsViewOpen] = useState<boolean>(false)
 
 
 
+    const handleDeleteDocument = async (file_id_arg: number) => {
+        const response = await fetchDeleteData(file_id_arg)
+        if (response.isDeleted) {
+            onDeleteSuccess()
+        }
+    }
 
+    useEffect(() => {
+
+    }, [documentMetaData])
 
     return (
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
@@ -142,11 +156,14 @@ const DocumentsTable = ({ documentMetaData }: documentsTableProps) => {
                                 {/* Actions */}
                                 <td className="px-5 py-4">
                                     <div className="flex items-center gap-2">
-                                        <button className="rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600">
+                                        <button className="rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-indigo-50 hover:text-indigo-600"
+                                            onClick={() => { setIsViewOpen(true) }}
+                                        >
                                             <Eye size={16} />
                                         </button>
 
-                                        <button className="rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-red-50 hover:text-red-500">
+                                        <button className="rounded-lg border border-gray-200 p-2 text-gray-500 hover:bg-red-50 hover:text-red-500"
+                                            onClick={() => { handleDeleteDocument(document.file_id) }}>
                                             <Trash2 size={16} />
                                         </button>
                                     </div>
@@ -156,6 +173,12 @@ const DocumentsTable = ({ documentMetaData }: documentsTableProps) => {
                     </tbody>
 
                 </table>
+
+                {isViewOpen && (
+                    <DocumentActualDataView onClose={() => { setIsViewOpen(false) }}
+                    />
+                )}
+
             </div>
 
             {/* Footer */}

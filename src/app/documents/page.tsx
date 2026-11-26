@@ -29,7 +29,7 @@ const page = () => {
       <DocumentsHeader />
       <KPICardsDocuments />
       <DocumentsUpload onUploadSuccess={showDocumentMetaData} />
-      <DocumentsTable documentMetaData={documentMetaData} />
+      <DocumentsTable documentMetaData={documentMetaData} onDeleteSuccess={showDocumentMetaData} />
     </div>
   )
 }
