@@ -3,6 +3,7 @@ import pool from "../config/db.js";
 
 export const getDocumentMetaData = async (req: Request, res: Response) => {
     try {
+        console.log("Bkdlsldkls")
         const metaData = await pool.query(`
             SELECT 
                 file_id,
@@ -14,6 +15,7 @@ export const getDocumentMetaData = async (req: Request, res: Response) => {
             FROM uploaded_files
             ORDER BY uploaded_at DESC
             `)
+            console.log(metaData.rows)
         return res.status(200).json({
             metaData: metaData.rows,
             message: "Meta Data recieved"

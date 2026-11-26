@@ -3,7 +3,11 @@ import { uploadDocument } from '@/services/documentService'
 import { CloudUpload } from 'lucide-react'
 import React, { useRef } from 'react'
 
-const DocumentsUpload = () => {
+
+type documentUploadProp = {
+    onUploadSuccess: () => void
+}
+const DocumentsUpload = ({ onUploadSuccess }: documentUploadProp) => {
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const hanleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +21,7 @@ const DocumentsUpload = () => {
         formData.append("file", file)
 
         await uploadDocument(formData)
+        onUploadSuccess()
 
 
     }

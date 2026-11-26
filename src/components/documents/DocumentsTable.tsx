@@ -1,3 +1,6 @@
+"use client"
+import { fetchMetaData } from "@/services/documentService";
+import { documentMetaDataType } from "@/types/documentMetaDataType";
 import {
     FileSpreadsheet,
     FileText,
@@ -5,39 +8,19 @@ import {
     Eye,
     Trash2,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
-const documents = [
-    {
-        name: "Sales_Data.xlsx",
-        type: "Excel",
-        size: "2.4 MB",
-        status: "Processed",
-        date: "Nov 23, 2026",
-    },
-    {
-        name: "Customers.csv",
-        type: "CSV",
-        size: "450 KB",
-        status: "Uploaded",
-        date: "Nov 22, 2026",
-    },
-    {
-        name: "Products.xlsx",
-        type: "Excel",
-        size: "1.2 MB",
-        status: "Processing",
-        date: "Nov 21, 2026",
-    },
-    {
-        name: "Orders.csv",
-        type: "CSV",
-        size: "780 KB",
-        status: "Failed",
-        date: "Nov 20, 2026",
-    },
-];
 
-const DocumentsTable = () => {
+type documentsTableProps = {
+    documentMetaData: documentMetaDataType[]
+}
+
+const DocumentsTable = ({ documentMetaData }: documentsTableProps) => {
+
+
+
+
+
     return (
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
 
@@ -74,11 +57,10 @@ const DocumentsTable = () => {
                         (filter, index) => (
                             <button
                                 key={filter}
-                                className={`rounded-lg border px-4 py-2 text-xs font-medium ${
-                                    index === 0
-                                        ? "border-indigo-200 bg-indigo-50 text-indigo-600"
-                                        : "border-gray-200 text-gray-500 hover:bg-gray-50"
-                                }`}
+                                className={`rounded-lg border px-4 py-2 text-xs font-medium ${index === 0
+                                    ? "border-indigo-200 bg-indigo-50 text-indigo-600"
+                                    : "border-gray-200 text-gray-500 hover:bg-gray-50"
+                                    }`}
                             >
                                 {filter}
                             </button>
@@ -103,16 +85,16 @@ const DocumentsTable = () => {
                     </thead>
 
                     <tbody className="divide-y divide-gray-100">
-                        {documents.map((document) => (
+                        {documentMetaData?.map((document) => (
                             <tr
-                                key={document.name}
+                                key={document.file_id}
                                 className="transition hover:bg-gray-50"
                             >
                                 {/* Document */}
                                 <td className="px-5 py-4">
                                     <div className="flex items-center gap-3">
                                         <div className="rounded-lg bg-indigo-50 p-2 text-indigo-600">
-                                            {document.type === "CSV" ? (
+                                            {document.file_type === "csv" ? (
                                                 <FileSpreadsheet size={20} />
                                             ) : (
                                                 <FileText size={20} />
@@ -120,38 +102,41 @@ const DocumentsTable = () => {
                                         </div>
 
                                         <span className="text-sm font-semibold text-gray-800">
-                                            {document.name}
+                                            {document.file_name}
                                         </span>
                                     </div>
                                 </td>
 
                                 <td className="px-5 py-4 text-sm text-gray-600">
-                                    {document.type}
+                                    {document.file_type}
                                 </td>
 
                                 <td className="px-5 py-4 text-sm text-gray-600">
-                                    {document.size}
+                                    {document.file_size}
                                 </td>
 
                                 {/* Status */}
                                 <td className="px-5 py-4">
                                     <span
-                                        className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                                            document.status === "Processed"
-                                                ? "bg-green-50 text-green-600"
-                                                : document.status === "Processing"
+                                        className={`rounded-full px-3 py-1 text-xs font-semibold ${document.processing_status === "Processed"
+                                            ? "bg-green-50 text-green-600"
+                                            : document.processing_status === "Processing"
                                                 ? "bg-yellow-50 text-yellow-600"
-                                                : document.status === "Failed"
-                                                ? "bg-red-50 text-red-600"
-                                                : "bg-blue-50 text-blue-600"
-                                        }`}
+                                                : document.processing_status === "Failed"
+                                                    ? "bg-red-50 text-red-600"
+                                                    : "bg-blue-50 text-blue-600"
+                                            }`}
                                     >
-                                        {document.status}
+                                        {document.processing_status}
                                     </span>
                                 </td>
 
                                 <td className="px-5 py-4 text-sm text-gray-500">
-                                    {document.date}
+                                    {new Date(document.uploaded_at).toLocaleDateString("en-US", {
+                                        month: "short",
+                                        day: "numeric",
+                                        year: "2-digit"
+                                    })}
                                 </td>
 
                                 {/* Actions */}
@@ -176,7 +161,7 @@ const DocumentsTable = () => {
             {/* Footer */}
             <div className="border-t border-gray-100 px-5 py-4">
                 <p className="text-xs text-gray-400">
-                    Showing {documents.length} documents
+                    Showing {documentMetaData.length} documents
                 </p>
             </div>
 

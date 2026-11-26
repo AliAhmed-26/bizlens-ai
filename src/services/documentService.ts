@@ -11,6 +11,7 @@ export const uploadDocument = async (formData: FormData) => {
 }
 
 export const fetchMetaData = async () => {
+    console.log("FDsdfsd")
     const request_metadata = await fetch("http://localhost:5000/api/document/get_metadata")
     const response_metadata = await request_metadata.json()
     return response_metadata

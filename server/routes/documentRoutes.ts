@@ -7,7 +7,7 @@ import { getDocumentActualData, getDocumentMetaData } from "../controllers/docum
 const router = express.Router()
 
 router.post("/upload", upload.single("file"), getDocumentUpload)
-router.post("/get_metadata", getDocumentMetaData)
+router.get("/get_metadata", getDocumentMetaData)
 router.post("/:fileID/data", getDocumentActualData)
 
 export default router
